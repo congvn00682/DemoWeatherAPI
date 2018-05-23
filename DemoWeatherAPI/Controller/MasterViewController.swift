@@ -35,14 +35,6 @@ class MasterViewController: UIViewController {
         
     }
     
-    func getCurrentDateTime(convert date: TimeInterval) -> String{
-        let formater = DateFormatter()
-        formater.dateFormat = "EEEE"
-        let getDate = formater.string(from: Date(timeIntervalSinceReferenceDate: date))
-        return getDate
-    }
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -56,13 +48,15 @@ extension MasterViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return weatherForecastday.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! WeatherTableViewCell
         let weather = weatherForecastday[indexPath.row]
+        
+        cell.thuLabel.text = weather.date_epoch.getCurrentDateTime(convert: weather.date_epoch)
         cell.imageIcon.download(from: weather.condition.icon)
         cell.maxtempLabel.text = String(weather.maxtemp_c)
         cell.mintempLabel.text = String(weather.mintemp_c)
-        cell.thuLabel.text = getCurrentDateTime(convert: weather.date_epoch)
         return cell
     }
     
